@@ -36,7 +36,6 @@ class Reporter(metaclass=SingletonType):
 
 class Analyse:
     def __init__(self):
-        #self.reporter = reporter
         print('analyse')
         
     def __str__(self):
@@ -45,7 +44,7 @@ class Analyse:
     def prepare_info(self, dough):
         self.dough = dough
         print(f'preparing the {self.dough.name} dough of your {self}...')
-        time.sleep(STEP_DELAY)
+        # time.sleep(STEP_DELAY)
         print(f'done with the {self.dough.name} dough')
 
 class ExcelBuilder:

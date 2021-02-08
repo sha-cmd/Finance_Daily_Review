@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Oct 17 16:34:02 2020
-
+Ce programme analyse et crée un rapport financier
 @author: romain Boyrie
 """
 

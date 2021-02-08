@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Oct 19 14:31:21 2020
-
+Ce programme analyse et crée un rapport financier
 @author: romain Boyrie
 """
 from objects.singleton import SingletonType

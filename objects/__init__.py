@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Oct 17 16:35:56 2020
-
-@author: romain
+Ce programme analyse et crée un rapport financier
+@author: romain Boyrie
 """
 
 all = ['titre','panneau','selecteur','singleton','analyse','reporter']

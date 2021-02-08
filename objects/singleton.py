@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Oct 20 07:04:56 2020
-
+Ce programme analyse et crée un rapport financier
 @author: romain Boyrie
 """
 from weakref import WeakValueDictionary
