@@ -26,7 +26,7 @@ from tex.reports import Report
 def main(): 
 
     # 0 pour PEA et PME, 5 pour All, 1 pour PEA, 2 pour PME', 3 pour FONDS_CIC, 4 pour Bitcoin
-    titres = ['biomerieux','airbus se','air liquide','virbac sa','gecina']
+    titres = ['0']
 
     dates_debut = []
     dates_fin = []
