@@ -5,9 +5,11 @@
 L’outil doit télécharger les données en ligne, puis les stocke dans une base de données locale où les titres sont regroupés, et/ou dans une série de fichier .xlsx individuellement pour chaque titre.
 Pour créer un rapport .pdf, il est nécessaire d’installer les outils Tex/LaTex sur son système.
 
-#### Voici deux exemples du report de sortie :
+#### Voici un exemple du sommaire du report de sortie :
 
 ![Liste de lien hypertexte permettant de trouver plus vite une entreprise en particulier](img/sommaire.PNG "Sommaire du document")
+
+#### Voici un exemple d’une page du corps du rapport de sortie :
 
 ![graphiques et textes en rapport à une performance boursière d’une entreprise](img/control_board.PNG "Panneau de contrôle")
 
