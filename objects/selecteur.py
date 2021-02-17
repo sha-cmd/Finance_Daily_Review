@@ -41,7 +41,8 @@ class Selecteur(metaclass=SingletonType):
         self._liste_indices = list()
         self._liste_bitcoins = list()
         self._liste_date_arrivee = list()
-        # Contexte
+
+        # Lancement automatique pour tous les titres PEA et PEA-PME inscrits dans le dictionnaire (data/listes.py)
         if '0' in liste_de_titres:
             print('Action Selection')
             keys = []
@@ -58,6 +59,8 @@ class Selecteur(metaclass=SingletonType):
                 liste_de_dates_arrivee = [ele for ele in liste_de_dates_arrivee for i in range(len(keys))] 
             self._dates_vente = {keys[i]:liste_de_dates_arrivee[i] for i in range(0, len(keys)) if (len(keys) == len(liste_de_dates_arrivee))}
             self.collecteur_de_portefeuille(keys)
+
+        # Lancement automatique pour tous les titres PEA grands groupes inscrits dans le dictionnaire (data/listes.py)
         elif '1' in liste_de_titres:
             print('All PEA')
             keys = []
@@ -72,6 +75,8 @@ class Selecteur(metaclass=SingletonType):
                 liste_de_dates_arrivee = [ele for ele in liste_de_dates_arrivee for i in range(len(keys))] 
             self._dates_vente = {keys[i]:liste_de_dates_arrivee[i] for i in range(0, len(keys)) if (len(keys) == len(liste_de_dates_arrivee))}
             self.collecteur_de_portefeuille(keys)
+
+        # Lancement automatique pour tous les titres PEA-PME inscrits dans le dictionnaire (data/listes.py)
         elif '2' in liste_de_titres:
             print('All PME')
             keys = []
@@ -86,6 +91,8 @@ class Selecteur(metaclass=SingletonType):
                 liste_de_dates_arrivee = [ele for ele in liste_de_dates_arrivee for i in range(len(keys))] 
             self._dates_vente = {keys[i]:liste_de_dates_arrivee[i] for i in range(0, len(keys)) if (len(keys) == len(liste_de_dates_arrivee))}
             self.collecteur_de_portefeuille(keys)
+
+        # Lancement automatique pour tous les titres Fonds en Assurance Vie inscrits dans le dictionnaire (data/listes.py)
         elif '3' in liste_de_titres:
             print('All FUNDS')
             keys = []
@@ -100,6 +107,8 @@ class Selecteur(metaclass=SingletonType):
                 liste_de_dates_arrivee = [ele for ele in liste_de_dates_arrivee for i in range(len(keys))] 
             self._dates_vente = {keys[i]:liste_de_dates_arrivee[i] for i in range(0, len(keys)) if (len(keys) == len(liste_de_dates_arrivee))}
             self.collecteur_de_portefeuille(keys)
+
+        # Lancement automatique pour tous les titres de crypto-monnaies inscrits dans le dictionnaire (data/listes.py)
         elif '4' in liste_de_titres:
             print('All BITCOINS')
             keys = []
@@ -115,6 +124,7 @@ class Selecteur(metaclass=SingletonType):
             self._dates_vente = {keys[i]:liste_de_dates_arrivee[i] for i in range(0, len(keys)) if (len(keys) == len(liste_de_dates_arrivee))}
             self.collecteur_de_portefeuille(keys)
 
+        # Lancement automatique pour tous les titres inscrits dans le dictionnaire (data/listes.py)
         elif '5' in liste_de_titres:
             print('Total Selection')
             keys = []
@@ -127,29 +137,162 @@ class Selecteur(metaclass=SingletonType):
             for key in self._bitcoins.keys():
                 keys.append(key)
             for key in self._indices.keys():
-                keys.append(key) 
+                keys.append(key)
+
             if len(liste_de_dates_debut)==1:
-                liste_de_dates_debut = [ele for ele in liste_de_dates_debut for i in range(len(keys))] 
+                liste_de_dates_debut = [ele for ele in liste_de_dates_debut for i in range(len(keys))]
+
             self._dates_achat = {keys[i]:liste_de_dates_debut[i] for i in range(0, len(keys)) if (len(keys) == len(liste_de_dates_debut))}
+
             if len(liste_de_dates_arrivee)==1:
-                liste_de_dates_arrivee = [ele for ele in liste_de_dates_arrivee for i in range(len(keys))] 
+                liste_de_dates_arrivee = [ele for ele in liste_de_dates_arrivee for i in range(len(keys))]
+
             self._dates_vente = {keys[i]:liste_de_dates_arrivee[i] for i in range(0, len(keys)) if (len(keys) == len(liste_de_dates_arrivee))}
             self.collecteur_de_portefeuille(keys)
+
         else:
+
             if len(liste_de_dates_debut)==1:
-                liste_de_dates_debut = [ele for ele in liste_de_dates_debut for i in range(len(liste_de_titres))] 
+                liste_de_dates_debut = [ele for ele in liste_de_dates_debut for i in range(len(liste_de_titres))]
+
             self._dates_achat = {liste_de_titres[i].upper():liste_de_dates_debut[i] for i in range(0, len(liste_de_titres)) if (len(liste_de_titres) == len(liste_de_dates_debut))}
+
             if len(liste_de_dates_arrivee)==1:
-                liste_de_dates_arrivee = [ele for ele in liste_de_dates_arrivee for i in range(len(liste_de_titres))] 
+                liste_de_dates_arrivee = [ele for ele in liste_de_dates_arrivee for i in range(len(liste_de_titres))]
+
             self._dates_vente = {liste_de_titres[i].upper():liste_de_dates_arrivee[i] for i in range(0, len(liste_de_titres)) if (len(liste_de_titres) == len(liste_de_dates_arrivee))}
 
+            # Si l’utilisateur demande de recharger les données historique du portefeuille
             if commande == 'RELOAD':
                 pass
+            #
             else:
                 for key in self._indices.keys():
                     liste_de_titres.append(key)
+            #
             self.collecteur_de_portefeuille(liste_de_titres)
 
+    def collecteur_de_portefeuille(self, liste_de_titres):
+        """
+        Dictionnaire construit à partir de la liste_de_titres, cette liste
+        peut contenir soit le noms soit le mnémonic, mais les clés seront
+        toutes des noms et les valeurs des mnémonics en sortie.
+
+        Returns
+        -------
+        Dict
+            Ce dictionnaire permettra de récupérer les couples noms et Isin
+            (mnémonics)
+
+        """
+        dictionnaire = dict()
+        for titre_case in liste_de_titres:
+            titre = titre_case.upper()
+            if self._pea.get(titre) != None:
+                #            print(self.pea.get(titre))
+                dictionnaire.update({titre: self._pea.get(titre)})
+                self._actions_pea.update({titre: self._pea.get(titre)})
+            if self._pme.get(titre) != None:
+                #             print(self.pme.get(titre))
+                dictionnaire.update({titre: self._pme.get(titre)})
+                self._actions_pme.update({titre: self._pme.get(titre)})
+            if self._fonds.get(titre) != None:
+                #              print(self.fonds.get(titre))
+                dictionnaire.update({titre: self._fonds.get(titre)})
+                self._titres_fonds.update({titre: self._fonds.get(titre)})
+            if self._indices.get(titre) != None:
+                dictionnaire.update({titre: self._indices.get(titre)})
+                self._titres_indices.update({titre: self._indices.get(titre)})
+            if self._bitcoins.get(titre) != None:
+                dictionnaire.update({titre: self._bitcoins.get(titre)})
+                self._titres_bitcoins.update({titre: self._bitcoins.get(titre)})
+        pea_mnemo = dict()
+        pme_mnemo = dict()
+        fonds_mnemo = dict()
+        indices_mnemo = dict()
+        bitcoins_mnemo = dict()
+        for nom, mnemo in self._pea.items():
+            pea_mnemo.update({mnemo: nom})
+        for nom, mnemo in self._pme.items():
+            pme_mnemo.update({mnemo: nom})
+        for nom, mnemo in self._fonds.items():
+            fonds_mnemo.update({mnemo: nom})
+        for nom, mnemo in self._indices.items():
+            indices_mnemo.update({mnemo: nom})
+        for nom, mnemo in self._bitcoins.items():
+            bitcoins_mnemo.update({mnemo: nom})
+        for mnemo in liste_de_titres:
+            if pea_mnemo.get(mnemo) != None:
+                dictionnaire.update({pea_mnemo.get(mnemo): mnemo})
+                self._actions_pea.update({pea_mnemo.get(mnemo): mnemo})
+            if pme_mnemo.get(mnemo) != None:
+                dictionnaire.update({pme_mnemo.get(mnemo): mnemo})
+                self._actions_pme.update({pme_mnemo.get(mnemo): mnemo})
+            if fonds_mnemo.get(mnemo) != None:
+                dictionnaire.update({fonds_mnemo.get(mnemo): mnemo})
+                self._titres_fonds.update({fonds_mnemo.get(mnemo): mnemo})
+            if indices_mnemo.get(mnemo) != None:
+                dictionnaire.update({indices_mnemo.get(mnemo): mnemo})
+                self._titres_indices.update({indices_mnemo.get(mnemo): mnemo})
+            if bitcoins_mnemo.get(mnemo) != None:
+                dictionnaire.update({bitcoins_mnemo.get(mnemo): mnemo})
+                self._titres_bitcoins.update({bitcoins_mnemo.get(mnemo): mnemo})
+        for titre_case in liste_de_titres:
+            titre = titre_case.upper()
+            if (titre not in self._pea) & (titre not in self._pme) \
+                    & (titre not in self._fonds) & (titre not in self._indices) \
+                    & (titre not in self._bitcoins) \
+                    & (titre not in pea_mnemo) & (titre not in fonds_mnemo) \
+                    & (titre not in pme_mnemo) & (titre not in indices_mnemo) \
+                    & (titre not in bitcoins_mnemo):
+                raise NameError('erreur d\'écriture de ', titre)
+        self._portefeuille = dictionnaire
+        del pea_mnemo, pme_mnemo, fonds_mnemo, indices_mnemo, dictionnaire
+
+    def portefeuille(self):
+        """Crée un dictionnaire d'objet Titre avec les noms en clés
+
+        """
+        # print(self._actions_pea)
+        for nom, mnemo in self._actions_pea.items():
+            self._groupe_pea.update({nom: Action({nom: self._actions_pea[nom]}, self.commande)})
+            self._groupe_de_titres.update(self._groupe_pea)
+            self._liste_pea.append([nom, mnemo])
+            self._liste_de_titres.append([nom, mnemo])
+
+        for nom, mnemo in self._actions_pme.items():
+            self._groupe_pme.update({nom: Action({nom: self._actions_pme[nom]}, self.commande)})
+            self._groupe_de_titres.update(self._groupe_pme)
+            self._liste_pme.append([nom, mnemo])
+            self._liste_de_titres.append([nom, mnemo])
+
+        for nom, mnemo in self._titres_fonds.items():
+            self._groupe_fonds.update({nom: Fonds({nom: self._titres_fonds
+            [nom]}, self.commande)})
+            self._groupe_de_titres.update(self._groupe_fonds)
+            self._liste_fonds.append([nom, mnemo])
+            self._liste_de_titres.append([nom, mnemo])
+
+        for nom, mnemo in self._titres_indices.items():
+            self._groupe_indices.update({nom: Indice({nom: self._titres_indices[nom]}, self.commande)})
+            self._groupe_de_titres.update(self._groupe_indices)
+            self._liste_indices.append([nom, mnemo])
+            self._liste_de_titres.append([nom, mnemo])
+
+        for nom, mnemo in self._titres_bitcoins.items():
+            self._groupe_bitcoins.update({nom: Bitcoin({nom: self._titres_bitcoins[nom]}, self.commande)})
+            self._groupe_de_titres.update(self._groupe_bitcoins)
+            self._liste_bitcoins.append([nom, mnemo])
+            self._liste_de_titres.append([nom, mnemo])
+
+    def __repr__(self):
+        return f'{self._portefeuille}'
+
+    def __doc__(self):
+        return "Permet de catégoriser une liste de titres à partir de noms ou " \
+               "de mnémonics dans le but d'analyse par catégorie"
+
+    # liste des attributs de l’objet en mode private quand précédé de _ pour modification seulement par accesseurs.
     @property
     def commande(self):
         return self._commande
@@ -330,7 +473,7 @@ class Selecteur(metaclass=SingletonType):
 
     @groupe_indices.setter
     def groupe_indices(self, key, value):
-        self.groupe_indices.__setitem__(key, value)
+        self._groupe_indices.__setitem__(key, value)
         
     @property
     def groupe_bitcoins(self, key):
@@ -338,7 +481,7 @@ class Selecteur(metaclass=SingletonType):
 
     @groupe_bitcoins.setter
     def groupe_bitcoins(self, key, value):
-        self.groupe_bitcoins.__setitem__(key, value)
+        self._groupe_bitcoins.__setitem__(key, value)
     
     @property
     def groupe_de_titres(self, key):
@@ -350,127 +493,6 @@ class Selecteur(metaclass=SingletonType):
     
   
     
-    def collecteur_de_portefeuille(self, liste_de_titres):
-        """
-        Dictionnaire construit à partir de la liste_de_titres, cette liste
-        peut contenir soit le noms soit le mnémonic, mais les clés seront
-        toutes des noms et les valeurs des mnémonics en sortie.
 
-        Returns
-        -------
-        Dict
-            Ce dictionnaire permettra de récupérer les couples noms et Isin 
-            (mnémonics)
-
-        """
-        dictionnaire = dict()
-        for titre_case in liste_de_titres:
-            titre = titre_case.upper()
-            if self._pea.get(titre) != None:
-   #            print(self.pea.get(titre))
-                dictionnaire.update({titre:self._pea.get(titre)})
-                self._actions_pea.update({titre:self._pea.get(titre)})
-            if self._pme.get(titre) != None:
-  #             print(self.pme.get(titre))
-                dictionnaire.update({titre:self._pme.get(titre)})
-                self._actions_pme.update({titre:self._pme.get(titre)})
-            if self._fonds.get(titre) != None:
-        #              print(self.fonds.get(titre))
-                dictionnaire.update({titre:self._fonds.get(titre)})
-                self._titres_fonds.update({titre:self._fonds.get(titre)})
-            if self._indices.get(titre) != None:
-                dictionnaire.update({titre:self._indices.get(titre)})
-                self._titres_indices.update({titre:self._indices.get(titre)})
-            if self._bitcoins.get(titre) != None:
-                dictionnaire.update({titre:self._bitcoins.get(titre)})
-                self._titres_bitcoins.update({titre:self._bitcoins.get(titre)})
-        pea_mnemo = dict()
-        pme_mnemo = dict()
-        fonds_mnemo = dict()
-        indices_mnemo = dict()
-        bitcoins_mnemo = dict()
-        for nom, mnemo in self._pea.items():
-            pea_mnemo.update({mnemo:nom})
-        for nom, mnemo in self._pme.items():
-            pme_mnemo.update({mnemo:nom})
-        for nom, mnemo in self._fonds.items():
-            fonds_mnemo.update({mnemo:nom})
-        for nom, mnemo in self._indices.items():
-            indices_mnemo.update({mnemo:nom})
-        for nom, mnemo in self._bitcoins.items():
-            bitcoins_mnemo.update({mnemo:nom})
-        for mnemo in liste_de_titres:
-            if pea_mnemo.get(mnemo) != None:
-                   dictionnaire.update({pea_mnemo.get(mnemo):mnemo})
-                   self._actions_pea.update({pea_mnemo.get(mnemo):mnemo})
-            if pme_mnemo.get(mnemo) != None:
-                   dictionnaire.update({pme_mnemo.get(mnemo):mnemo})
-                   self._actions_pme.update({pme_mnemo.get(mnemo):mnemo})
-            if fonds_mnemo.get(mnemo) != None:
-                   dictionnaire.update({fonds_mnemo.get(mnemo):mnemo})
-                   self._titres_fonds.update({fonds_mnemo.get(mnemo):mnemo})
-            if indices_mnemo.get(mnemo) != None:
-                   dictionnaire.update({indices_mnemo.get(mnemo):mnemo})
-                   self._titres_indices.update({indices_mnemo.get(mnemo):mnemo})
-            if bitcoins_mnemo.get(mnemo) != None:
-                   dictionnaire.update({bitcoins_mnemo.get(mnemo):mnemo})
-                   self._titres_bitcoins.update({bitcoins_mnemo.get(mnemo):mnemo})
-        for titre_case in liste_de_titres:
-            titre = titre_case.upper()
-            if (titre not in self._pea) & (titre not in self._pme) \
-            & (titre not in self._fonds
-) & (titre not in self._indices) \
-                & (titre not in self._bitcoins) \
-            & (titre not in pea_mnemo) & (titre not in fonds_mnemo)\
-            & (titre not in pme_mnemo) & (titre not in indices_mnemo)\
-            & (titre not in bitcoins_mnemo):
-                raise NameError ('erreur d\'écriture de ', titre)
-        self._portefeuille = dictionnaire
-        del pea_mnemo, pme_mnemo, fonds_mnemo, indices_mnemo, dictionnaire
-        
-    
-
-    def portefeuille(self):
-        """Crée un dictionnaire d'objet Titre avec les noms en clés
-        
-        """
-        #print(self._actions_pea)
-        for nom, mnemo in self._actions_pea.items():
-            self._groupe_pea.update({nom:Action({nom:self._actions_pea[nom]}, self.commande)})
-            self._groupe_de_titres.update(self._groupe_pea)
-            self._liste_pea.append([nom,mnemo])
-            self._liste_de_titres.append([nom,mnemo])
-            
-        for nom, mnemo in self._actions_pme.items():
-            self._groupe_pme.update({nom:Action({nom:self._actions_pme[nom]}, self.commande)})
-            self._groupe_de_titres.update(self._groupe_pme)
-            self._liste_pme.append([nom,mnemo])
-            self._liste_de_titres.append([nom,mnemo])
-            
-        for nom, mnemo in self._titres_fonds.items():
-            self._groupe_fonds.update({nom:Fonds({nom:self._titres_fonds
-[nom]}, self.commande)})
-            self._groupe_de_titres.update(self._groupe_fonds)
-            self._liste_fonds.append([nom,mnemo])
-            self._liste_de_titres.append([nom,mnemo])
-            
-        for nom, mnemo in self._titres_indices.items():
-            self._groupe_indices.update({nom:Indice({nom:self._titres_indices[nom]}, self.commande)})
-            self._groupe_de_titres.update(self._groupe_indices)
-            self._liste_indices.append([nom,mnemo])
-            self._liste_de_titres.append([nom,mnemo])    
-
-        for nom, mnemo in self._titres_bitcoins.items():
-            self._groupe_bitcoins.update({nom:Bitcoin({nom:self._titres_bitcoins[nom]}, self.commande)})
-            self._groupe_de_titres.update(self._groupe_bitcoins)
-            self._liste_bitcoins.append([nom,mnemo])
-            self._liste_de_titres.append([nom,mnemo])            
-    
-    def __repr__(self):
-        return f'{self._portefeuille}'
-    
-    def __doc__(self):
-        return "Permet de catégoriser une liste de titres à partir de noms ou " \
-               "de mnémonics dans le but d'analyse par catégorie"
 
 

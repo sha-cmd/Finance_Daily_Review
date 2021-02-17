@@ -62,7 +62,7 @@ class PmeIterator:
             return StopIteration()
         
         
-class FondsCicIterator:  
+class FondsIterator:
 
     def __init__(self, liste_valeurs):
         # the list of players and coaches
@@ -139,7 +139,8 @@ class Portefeuille(metaclass=SingletonType):
             self._valeurs.update(self._titres_indices)
         if self._titres_bitcoins:
             self._valeurs.update(self._titres_bitcoins)
-        # Stockage des titres en listes par référence
+
+        # Stockage des titres en listes
         self._liste_valeurs = []
         for key, value in self._valeurs.items():
             self._liste_valeurs.append(value)   
@@ -157,8 +158,22 @@ class Portefeuille(metaclass=SingletonType):
             self._liste_indices.append(value)  
         self._liste_bitcoins = []
         for key, value in self._titres_bitcoins.items():
-            self._liste_bitcoins.append(value) 
-    
+            self._liste_bitcoins.append(value)
+
+    # Build-in functions
+    def __len__(self):
+        return len(self._liste_valeurs)
+
+    def __iter__(self):
+        return PortefeuilleIterator(self._liste_valeurs)
+
+    def __repr__(self):
+        return f'Portefeuille d\'actions pea: {self._actions_pea.keys()}' + \
+               f'\nd\'actions pme: {self._actions_pme.keys()}' + \
+               f'\nde fonds cic: {self._titres_fonds.keys()}' + \
+               f'\nd\'indices: {self._titres_indices.keys()}'
+
+    # Attributs de la classe
     @property
     def selecteur(self):
         return self._selecteur
@@ -271,22 +286,11 @@ class Portefeuille(metaclass=SingletonType):
         return PmeIterator(self._liste_pme)
     
     def fonds_iter(self):
-        return FondsCicIterator(self._liste_fonds)
+        return FondsIterator(self._liste_fonds)
     
     def indices_iter(self):
         return IndicesIterator(self._liste_indices)
     
     def bitcoins_iter(self):
-        return bitcoinsIterator(self._liste_bitcoins)
+        return BitcoinsIterator(self._liste_bitcoins)
 
-    def __len__(self):
-        return len(self._liste_valeurs)
-
-    def __iter__(self):
-        return PortefeuilleIterator(self._liste_valeurs)
-    
-    def __repr__(self):
-        return f'Portefeuille d\'actions pea: {self._actions_pea.keys()}' + \
-    f'\nd\'actions pme: {self._actions_pme.keys()}' + \
-    f'\nde fonds cic: {self._titres_fonds.keys()}' + \
-    f'\nd\'indices: {self._titres_indices.keys()}'    

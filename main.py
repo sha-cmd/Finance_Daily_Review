@@ -11,7 +11,7 @@ from objects.selecteur import Selecteur
 from tex.reports import Report
 
 
-
+## Instruction de doctest ##
 # def initialize():
 #     """ lance les tests pour l'allumage
 #     >>> os.path.exists(Path('./data'))
@@ -25,18 +25,23 @@ from tex.reports import Report
 
 def main(): 
 
-    # 0 pour PEA et PME, 5 pour All, 1 pour PEA, 2 pour PME', 3 pour FONDS_CIC, 4 pour Bitcoin
-    titres = ['0']
+    # 0 pour PEA et PME, 5 pour All, 1 pour PEA, 2 pour PME', 3 pour FONDS, 4 pour Bitcoin
+    titres = ['0'] # Liste de titre, voir data/listes.py ou entrer un nombre entre 0 et 4
 
-    dates_debut = []
-    dates_fin = []
+    # Date de début d’observation par défaut 10 ans
+    dates_debut = [] # La date de début de l’achat du portefeuille (titres groupés, action non-individuelle)
+
+    # Date de fin d’observation, par défaut aujourd’hui, à partir de la fin de séance, sauf si selecteur contient ACTU
+    dates_fin = [] # La date de fine
     
-# Boucle d’alarme
-   # while pd.to_datetime(datetime.now().strftime('%Y-%m-%d ')+ '17:00:01') > datetime.now():
+# Boucle d’alarme pour laisser le programme en attente de fin de séance en automatique
+   # while pd.to_datetime(datetime.now().strftime('%Y-%m-%d ')+ '18:05:01') > datetime.now():
     #    time.sleep(1)
-    
-    selecteur = Selecteur(titres, dates_debut, dates_fin, 'MAJ')
-    selecteur.portefeuille()
+    #
+    selecteur = Selecteur(titres, dates_debut, dates_fin, 'MAJ') # Valeur à 15 minutes si le dernier paramètre est ACTU
+
+    selecteur.portefeuille() # Crée un objet structuré pour automatisation des requêtes en base de données
+
     portefeuille = Portefeuille(selecteur)
     analyse = Analyse(portefeuille)
     analyse.math_finance()

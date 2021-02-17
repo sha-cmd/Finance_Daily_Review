@@ -7,6 +7,8 @@ Fait les calculs pour le portefeuille
 from objects.singleton import SingletonType
 
 class Reporter(metaclass=SingletonType):
+    """Intéraction avec l’utilisateur
+    """
     def __init__(self, portefeuille):
         self.builder = None
 
@@ -29,25 +31,28 @@ class Reporter(metaclass=SingletonType):
             builder = builders[report_style]()
             valid_input = True
         except KeyError:
-            error_msg = 'Sorry, only margarita (key m) and creamy bacon (key c) are available'
+            error_msg = 'Impossible de créer votre rapport'
             print(error_msg)
             return (False, None)
         return (True, builder)
 
 class Analyse:
+    """Affichage du déroulement du calcul
+    """
     def __init__(self):
         print('analyse')
         
     def __str__(self):
         return self.nom
 
-    def prepare_info(self, dough):
-        self.dough = dough
-        print(f'preparing the {self.dough.name} dough of your {self}...')
+    def prepare_info(self, calcul):
+        self.calcul = calcul
+        print(f'le calcul {self.calcul.name} est en cours pour {self}...')
         # time.sleep(STEP_DELAY)
-        print(f'done with the {self.dough.name} dough')
+        print(f'le calcul {self.calcul.name} est terminé')
 
 class ExcelBuilder:
+    """"Construction du fichier tableur excel"""
     def __init__(self):
         print('Excel Builder')
     
@@ -72,19 +77,12 @@ class ExcelBuilder:
         print('Compiling')
         
 class TexBuilder:    
-    
+    """Processus de création du rapport au format Tex"""
+
     def __init__(self):
         print('Tex Builder')
         self.report
-        
-    @property
-    def report(self):
-        self.report
-        
-    @report.setter
-    def report(self, value):
-        self.report = value
-        
+
     def prepare_text(self):
         print('Preparing Text')
         
@@ -96,3 +94,11 @@ class TexBuilder:
         
     def compiler(self):
         print('Compiling')
+
+    @property
+    def report(self):
+        self.report
+
+    @report.setter
+    def report(self, value):
+        self.report = value
