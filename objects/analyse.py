@@ -158,7 +158,7 @@ class Analyse:
         except:
             return self.price.update({nom:copy.deepcopy(round(self.panel_filtre.get(nom).iloc[-1]['Close'],2))})                                
     def to_txt(self):
-        fichier = open("performance_du_jour.txt", "w")
+        fichier = open("reports_txt/performance_du_jour.txt", "w")
         for nom, objet in self._portefeuille._selecteur._groupe_de_titres.items():
             if (not isinstance(objet, Indice)):    
                 fichier.write(f'****************************\nPour {nom:>36}  aujourd\'hui: {self.perf_instantane[nom]:>+5}% -> {self.price[nom]:5}€\n')
@@ -212,7 +212,7 @@ class Analyse:
             self.synoptique['Cac 40'] = self.synoptique['Cac 40'].astype('float')
             
         # Set Pandas engine to xlsxwriter
-        writer = pd.ExcelWriter(self.date_du_jour_de_fin_de_l_analyse + '_synoptique.xlsx', engine='xlsxwriter')
+        writer = pd.ExcelWriter('reports_excel/' + self.date_du_jour_de_fin_de_l_analyse + '_synoptique.xlsx', engine='xlsxwriter')
         
         # Convert the dataframe to an XlsxWriter Excel object.
         self.synoptique.to_excel(writer, sheet_name='Sheet1', index=True)

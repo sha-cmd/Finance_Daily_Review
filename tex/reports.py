@@ -53,6 +53,8 @@ START = r"""% LaTeX Cookbook, Packt Publishing, 2015
 \usepackage{appendix}
 \usepackage[pdftex,colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
 
+\graphicspath{{../OutputFiles/}} %Setting the graphicspath
+
 % set the default code style
 \lstset{
     language=Python,
@@ -78,6 +80,7 @@ START = r"""% LaTeX Cookbook, Packt Publishing, 2015
 %\frontmatter
 \maketitle
 %\mainmatter
+\pagenumbering{arabic}
 \tableofcontents
 """
 CHAPITRE = """\chapter{TITRE}
@@ -86,6 +89,7 @@ END = "\end{document}"
 CORPSSECTION = r"""
 
 \section{TITRE}
+
 
 \paragraph{Voici un présentation graphique du titre} : """
 
@@ -98,24 +102,24 @@ CORPS = r"""
 \begin{figure}[!htb]
    \begin{minipage}{0.5\textwidth}
      \centering
-     \includegraphics[width=.8\linewidth]{OutputFiles/stockprice_Adj Close_TITRE.png}
+     \includegraphics[width=.8\linewidth]{stockprice_Adj Close_TITRE.png}
      \caption{Cours et Volumes}\label{Fig:price_TITRE}
    \end{minipage}\hfill
    \begin{minipage}{0.5\textwidth}
      \centering
-     \includegraphics[width=.8\linewidth]{OutputFiles/volatility_Adj Close_TITRE.png}
+     \includegraphics[width=.8\linewidth]{volatility_Adj Close_TITRE.png}
      \caption{Volatilité à 30 jours}\label{Fig:volat_TITRE}
    \end{minipage}
 \end{figure}
 \begin{figure}[!htb]
    \begin{minipage}{0.5\textwidth}
      \centering
-     \includegraphics[width=.8\linewidth]{OutputFiles/mva_Adj Close_TITRE.png}
+     \includegraphics[width=.8\linewidth]{mva_Adj Close_TITRE.png}
      \caption{Moyennes mobiles}\label{Fig:mva_TITRE}
    \end{minipage}\hfill
    \begin{minipage}{0.5\textwidth}
      \centering
-     \includegraphics[width=.8\linewidth]{OutputFiles/monaco_Adj Close_TITRE.png}
+     \includegraphics[width=.8\linewidth]{monaco_Adj Close_TITRE.png}
      \caption{Validité de prédiction}\label{Fig:prediction_TITRE}
    \end{minipage}
 \end{figure}
@@ -215,12 +219,14 @@ class Report:
         self.sim_bitcoins()
         
     def compiler(self):
-        os.system("pdflatex "+ DATE_DE_DERNIERE_SEANCE + '.tex')
-        os.system("pdflatex "+ DATE_DE_DERNIERE_SEANCE + '.tex')
+        #os.chdir("reports_pdf")
+        os.system("pdflatex " + DATE_DE_DERNIERE_SEANCE + '.tex')
+        os.system("pdflatex " + DATE_DE_DERNIERE_SEANCE + '.tex')
 
     def create(self):#(filename, noms, synthese, titre_chapitre, strategie):
+        os.chdir("reports_pdf")
         with open(self.data.date_du_jour_de_fin_de_l_analyse + '.tex', 'w', encoding='utf8') as fout:
-            fout.write(START.replace('DATE',DATE_DE_DERNIERE_SEANCE))
+            fout.write(START.replace('DATE', DATE_DE_DERNIERE_SEANCE))
             
             for secteur in self.secteurs:
                 #print(secteur)
@@ -356,7 +362,7 @@ class Report:
         for i in range(0, len(self.data._portefeuille._liste_pea)):   
             objet = next(valeurs_iter)
         #for nom, objet in self.data._portefeuille._actions_pea.items():
-            print('PEA cours : ', objet._nom)
+            print('PEA cours: ', objet._nom)
             
             m1 = memory_profiler.memory_usage()
             t1 = time.perf_counter()
