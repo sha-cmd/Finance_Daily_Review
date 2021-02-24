@@ -5,6 +5,6 @@ Ce programme analyse et crée un rapport financier
 @author: romain Boyrie
 """
 
-all = ['email']
+__all__ = ['email']
 
-from mail.email import *
+from .email import *
