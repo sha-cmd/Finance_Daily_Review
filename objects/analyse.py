@@ -23,7 +23,11 @@ from sklearn.linear_model import LinearRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import SGDRegressor
 from sklearn import linear_model
+
+
 class Analyse:
+
+
     def __init__(self, portefeuille):
         print('************************************\nAnalyse')
         texte = 'de performances à dates variables ' if (len(portefeuille._selecteur._dates_achat) != 0) else ('globale à partir du ' + np.datetime_as_string(FILTRE))
