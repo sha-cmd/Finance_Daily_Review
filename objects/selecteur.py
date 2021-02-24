@@ -249,7 +249,7 @@ class Selecteur(metaclass=SingletonType):
         self._portefeuille = dictionnaire
         del pea_mnemo, pme_mnemo, fonds_mnemo, indices_mnemo, dictionnaire
 
-    def portefeuille(self):
+    def creer_portefeuille(self):
         """Crée un dictionnaire d'objet Titre avec les noms en clés
 
         """
@@ -441,7 +441,7 @@ class Selecteur(metaclass=SingletonType):
       
     @portefeuille.setter
     def portefeuille(self, key, value):
-        self._portefeuille.__setitem(key, value)
+        self._portefeuille.__setitem__(key, value)
     # Dictionnaire d'objet instantié
     @property
     def groupe_pea(self, key):
