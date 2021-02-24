@@ -71,7 +71,7 @@ def main():
     """
 
     # Freed memory, not always necessary in Python
-    del selecteur, portefeuille, analyse, report
+    del selector, portefeuille, analyse, report
 
     # The final message
     print('Thank you for using this program')
