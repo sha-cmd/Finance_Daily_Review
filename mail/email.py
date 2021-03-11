@@ -5,13 +5,16 @@ Ce programme analyse et crée un rapport financier
 @author: romain Boyrie
 """
 
-import smtplib, ssl
+import smtplib
+import ssl
 
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from data.listes import DATE_MAJ
+
+
 class Facteur:
     def __init__(self):
         pass        

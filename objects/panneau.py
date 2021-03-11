@@ -4,16 +4,17 @@ Created on Sat Oct 17 16:44:11 2020
 Objet pour obtenir les panneaux de ressource de données financières
 @author: romain Boyrie
 """
-import pandas as pd
 import abc
-import copy
+import os.path
 import numpy as np
+import pandas as pd
+import sys
+import copy
 from datetime import datetime
 from sqlite3 import connect
-import os.path
-import sys
 from data.listes import  DATE_DE_DERNIERE_SEANCE, \
     ANS_A_ANALYSER, FILTRE, DB_PATH, XLSX_PATH, TXT_PATH, DATE_DU_JOUR, DATE_MAJ
+
 
 class RessourceEnPanneau:
     

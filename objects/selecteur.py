@@ -11,6 +11,8 @@ from data import listes
 #from data.listes import YAHOO, BOURSORAMA, DBASE, MAJ, INV
 from objects.titre import Action, Fonds, Indice, Bitcoin
 from objects.singleton import SingletonType
+
+
 class Selecteur(metaclass=SingletonType):
     
     def __init__(self, liste_de_titres, liste_de_dates_debut, liste_de_dates_arrivee, commande='DBASE'):
