@@ -7,4 +7,4 @@ Partie Model et stockage des données
 
 __all__ = ['listes']
 
-from .listes import *
+from data.listes import *

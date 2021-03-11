@@ -7,4 +7,4 @@ Ce programme analyse et crée un rapport financier
 
 __all__ = ['email']
 
-from .email import *
+from mail.email import *

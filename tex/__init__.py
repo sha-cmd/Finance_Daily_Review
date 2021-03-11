@@ -7,4 +7,4 @@ Ce programme analyse et crée un rapport financier
 
 __all__ = ['reports']
 
-from .reports import *
+from tex.reports import *

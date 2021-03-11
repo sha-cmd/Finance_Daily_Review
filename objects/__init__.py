@@ -7,10 +7,10 @@ Ce programme analyse et crée un rapport financier
 
 __all__ = ['titre', 'panneau', 'selecteur', 'singleton', 'analyse', 'reporter']
 
-from .titre import *
-from .panneau import *
-from .selecteur import *
-from .portefeuille import *
-from .singleton import *
-from .reporter import *
-from .analyse import *
+from objects.titre import *
+from objects.panneau import *
+from objects.selecteur import *
+from objects.portefeuille import *
+from objects.singleton import *
+from objects.reporter import *
+from objects.analyse import *
